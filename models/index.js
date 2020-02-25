@@ -1,3 +1,3 @@
 module.exports = {
-    Client: require("./modelOne")
+    Clients: require("./Clients"),
 };

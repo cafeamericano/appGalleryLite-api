@@ -1,7 +1,7 @@
 // GENERAL DEPENDENCIES =======================================================
 
 //Environment variables
-// require('dotenv').config()
+require('dotenv').config()
 
 // EXPRESS ====================================================================
 
@@ -19,31 +19,25 @@ app.use(express.json())
 
 // DATABASE ===================================================================
 
-// //Import Mongoose
-// const mongoose = require("mongoose");
+//Import Mongoose
+const mongoose = require("mongoose");
 
-// //Import DB models
-// var db = require("./models");
+//Connect to database
+var dbURL = process.env.DB_URL || '';
+mongoose.connect(dbURL, function() {
+  console.log('Connected to database.')
+});
 
-// //Connect to database
-// var dbURL = process.env.DB_URL || '';
-// mongoose.connect(dbURL, {
-//   useNewUrlParser: true
-// }, function() {
-//   console.log('Connected to database.')
-// });
-
-// DATABASE CREATION ==========================================================
+// INITIAL DATABASE CREATION ==========================================================
 
 // const db = require("./models");
 
-// var john = {
-//   firstName: "John",
-//   lastName: "Smith",
-//   phone: 12345678901
-// };
+// // var sally = {
+// //   first_name: "Sally",
+// //   last_name: "Smith",
+// // };
 
-// db.Client.create(john)
+// db.Clients.create(sally)
 
 // ROUTING ====================================================================
 

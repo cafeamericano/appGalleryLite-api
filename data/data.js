@@ -4,30 +4,25 @@ const queryExecutor = require("./_queryExecutor");
 module.exports = {
 
     getAll: function (req, res) {
-
+        console.log('Hit getAll route.')
         var query = (
-            db.Client.find({})
-            .sort({
-                last_name: 1
-            })
+            db.Clients.find({})
             .limit(10)
         )
-
-        res.send('Greetings from Apple World!')
-        // queryExecutor.queryAndRespond(query, res)
+        queryExecutor.queryAndRespond(query, res)
 
     },
 
     getOne: function (req, res) {
 
         var query = (
-            db.Client.find({
+            db.Clients.find({
                 credit_card_type: req.query.credit_card_type
             })
             .limit(10)
         )
 
-        // queryExecutor.queryAndRespond(query, res)
+        queryExecutor.queryAndRespond(query, res)
 
     }
 
