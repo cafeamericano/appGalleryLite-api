@@ -1,5 +1,5 @@
-var mongoose = require("mongoose");
-var AppGallery = mongoose.createConnection(process.env.DB_URL_APPGALLERY);
+var mongoose = require('mongoose');
+var thisConnection = require('../../../server').AppGallery
 
 var Schema = mongoose.Schema;
 
@@ -15,6 +15,6 @@ var KeywordSchema = new Schema({
 });
 
 // Create model using defined schema
-var Keyword = AppGallery.model("Keyword", KeywordSchema);
+var Keyword = thisConnection.model("Keyword", KeywordSchema);
 
 module.exports = Keyword;

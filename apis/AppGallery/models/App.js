@@ -1,7 +1,6 @@
-var mongoose = require("mongoose");
-var AppGallery = mongoose.createConnection(process.env.DB_URL_APPGALLERY);
+var mongoose = require('mongoose');
+var thisConnection = require('../../../server').AppGallery;
 
-var ProjectX = mongoose.createConnection(process.env.DB_URL_PROJECTX)
 var Schema = mongoose.Schema;
 
 var AppSchema = new Schema({
@@ -47,6 +46,6 @@ var AppSchema = new Schema({
 });
 
 // Create model using defined schema
-var App = AppGallery.model("App", AppSchema);
+var App = thisConnection.model("App", AppSchema);
 
 module.exports = App;

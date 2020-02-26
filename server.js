@@ -19,16 +19,15 @@ app.use(express.json())
 
 // PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
+//Establish db connections
 module.exports = {
   AppGallery: mongoose.createConnection(process.env.DB_URL_APPGALLERY),
   ProjectX: mongoose.createConnection(process.env.DB_URL_PROJECTX)
 }
 
-//App Gallery
-require("./apis/AppGallery/routes/routes")(app);
-
-//ProjectX
-require("./apis/ProjectX/routes/routes")(app);
+//Project specific routes
+require("./apis/AppGallery/routes/routes")(app); //App Gallery
+require("./apis/ProjectX/routes/routes")(app); //ProjectX
 
 //API not found
 app.get("*", function(req, res) {
