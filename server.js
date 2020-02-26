@@ -23,10 +23,6 @@ app.use(express.json())
 const mongoose = require("mongoose");
 
 //Connect to database
-var dbURL = process.env.DB_URL || '';
-mongoose.connect(dbURL, function() {
-  console.log('Connected to database.')
-});
 
 // INITIAL DATABASE CREATION ==========================================================
 
@@ -39,12 +35,15 @@ mongoose.connect(dbURL, function() {
 
 // db.Clients.create(sally)
 
-// ROUTING ====================================================================
+// PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
-//Define route locations
-require("./routes/routes")(app);
+//ProjectX
+mongoose.connect(process.env.DB_URL_PROJECTX || '', function() {console.log('Connected to database for ProjectX.')});
+require("./apis/ProjectX/routes/routes")(app);
+
+//Catch All
 app.get("*", function(req, res) {
-    res.json({error: "The requested endpoint does not exist."})
+  res.json({error: "The requested endpoint does not exist."})
 })
 
 // SERVER LISTEN ==============================================================
