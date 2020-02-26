@@ -2,32 +2,34 @@
 
 require('dotenv').config(); //Environment variables
 const mongoose = require("mongoose"); //Import Mongoose
-
+const cors = require('cors') //Allow cross-origin requests
+ 
 // EXPRESS ====================================================================
 
 //Define express app and port number
-var express = require('express')
-var app = express()
-let port = process.env.PORT || 9483
+var express = require('express');
+var app = express();
+app.use(cors());
+let port = process.env.PORT || 9483;
 
 //Define express public folder
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 //Allow express to handle post requests with JSON data
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
 //Establish db connections
 module.exports = {
   AppGallery: mongoose.createConnection(process.env.DB_URL_APPGALLERY),
-  ProjectX: mongoose.createConnection(process.env.DB_URL_PROJECTX)
+  ClientManagerApp: mongoose.createConnection(process.env.DB_URL_CLIENTMANAGERAPP)
 }
 
 //Project specific routes
 require("./apis/AppGallery/routes/routes")(app); //App Gallery
-require("./apis/ProjectX/routes/routes")(app); //ProjectX
+require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
 
 //API not found
 app.get("*", function(req, res) {
