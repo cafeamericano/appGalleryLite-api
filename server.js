@@ -23,12 +23,12 @@ app.use(express.json());
 
 //Establish db connections
 module.exports = {
-  AppGallery: mongoose.createConnection(process.env.DB_URL_APPGALLERY),
+  AppGalleryLite: mongoose.createConnection(process.env.DB_URL_APPGALLERYLITE),
   ClientManagerApp: mongoose.createConnection(process.env.DB_URL_CLIENTMANAGERAPP)
 }
 
 //Project specific routes
-require("./apis/AppGallery/routes/routes")(app); //App Gallery
+require("./apis/AppGalleryLite/routes/routes")(app); //App Gallery
 require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
 
 //API not found
