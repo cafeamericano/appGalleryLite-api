@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-var ProjectX = mongoose.createConnection(process.env.DB_URL_PROJECTX);
 
 var Schema = mongoose.Schema;
 
@@ -79,6 +78,6 @@ var ClientsSchema = new Schema({
 });
 
 // Create model using defined schema
-var Clients = ProjectX.model("Clients", ClientsSchema);
+var Clients = mongoose.model("Clients", ClientsSchema);
 
 module.exports = Clients;

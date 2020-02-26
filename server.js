@@ -1,7 +1,7 @@
 // GENERAL DEPENDENCIES =======================================================
 
-//Environment variables
-require('dotenv').config()
+require('dotenv').config(); //Environment variables
+const mongoose = require("mongoose"); //Import Mongoose
 
 // EXPRESS ====================================================================
 
@@ -17,31 +17,20 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-// DATABASE ===================================================================
-
-//Import Mongoose
-const mongoose = require("mongoose");
-
-//Connect to database
-
-// INITIAL DATABASE CREATION ==========================================================
-
-// const db = require("./models");
-
-// // var sally = {
-// //   first_name: "Sally",
-// //   last_name: "Smith",
-// // };
-
-// db.Clients.create(sally)
-
 // PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
+module.exports = {
+  AppGallery: mongoose.createConnection(process.env.DB_URL_APPGALLERY),
+  ProjectX: mongoose.createConnection(process.env.DB_URL_PROJECTX)
+}
+
+//App Gallery
+require("./apis/AppGallery/routes/routes")(app);
+
 //ProjectX
-mongoose.connect(process.env.DB_URL_PROJECTX || '', function() {console.log('Connected to database for ProjectX.')});
 require("./apis/ProjectX/routes/routes")(app);
 
-//Catch All
+//API not found
 app.get("*", function(req, res) {
   res.json({error: "The requested endpoint does not exist."})
 })
@@ -52,3 +41,4 @@ app.get("*", function(req, res) {
 app.listen(port, function () {
     console.log(`Listening on port ${port}.`)
 })
+
