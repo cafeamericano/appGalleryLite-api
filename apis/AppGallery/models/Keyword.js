@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var thisConnection = require('../../../server').AppGallery
+var thisConnection = require('../../../server').AppGalleryLite
 
 var Schema = mongoose.Schema;
 

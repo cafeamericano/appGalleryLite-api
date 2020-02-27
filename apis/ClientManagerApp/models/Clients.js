@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var thisConnection = require('../../../server').ProjectX
+var thisConnection = require('../../../server').ClientManagerApp
 
 var Schema = mongoose.Schema;
 
