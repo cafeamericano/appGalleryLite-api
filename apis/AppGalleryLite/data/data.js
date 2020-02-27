@@ -10,7 +10,6 @@ module.exports = {
             .sort({ isFeatured: -1, isCollaboration: -1, publishDate: -1 })
         )
 
-        console.log('getting apps')
         queryExecutor.queryAndRespond(query, res);
 
     },
