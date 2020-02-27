@@ -31,9 +31,11 @@ module.exports = {
 require("./apis/AppGalleryLite/routes/routes")(app); //App Gallery
 require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
 
-//API not found
+//Endpoint not found
 app.get("*", function(req, res) {
-  res.json({error: "The requested endpoint does not exist."})
+  res
+  .status(404)
+  .json({error: "The requested endpoint does not exist."})
 })
 
 // SERVER LISTEN ==============================================================
