@@ -21,15 +21,22 @@ app.use(express.json());
 
 // PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
-//Establish db connections
+//Establish db connections for Mongoose
 module.exports = {
-  AppGalleryLite: mongoose.createConnection(process.env.DB_URL_APPGALLERYLITE),
-  ClientManagerApp: mongoose.createConnection(process.env.DB_URL_CLIENTMANAGERAPP)
+  AppGalleryLite: mongoose.createConnection(process.env.DB_URL_APPGALLERYLITE || ''),
+  ClientManagerApp: mongoose.createConnection(process.env.DB_URL_CLIENTMANAGERAPP || '')
 }
 
 //Project specific routes
 require("./apis/AppGalleryLite/routes/routes")(app); //App Gallery
 require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
+
+require("./apis/FinanceApp/routes/analytics")(app); //FinanceApp
+require("./apis/FinanceApp/routes/frozenAssets")(app); //FinanceApp
+require("./apis/FinanceApp/routes/liabilities")(app); //FinanceApp
+require("./apis/FinanceApp/routes/liquidAssets")(app); //FinanceApp
+require("./apis/FinanceApp/routes/overview")(app); //FinanceApp
+require("./apis/FinanceApp/routes/sourceDetail")(app); //FinanceApp
 
 //Endpoint not found
 app.get("*", function(req, res) {
