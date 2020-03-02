@@ -1,5 +1,4 @@
 const db = require("../models");
-const queryExecutor = require("./_queryExecutor");
 
 module.exports = {
 

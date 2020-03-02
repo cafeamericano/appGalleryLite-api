@@ -31,12 +31,12 @@ module.exports = {
 require("./apis/AppGalleryLite/routes/routes")(app); //App Gallery
 require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
 
-require("./apis/FinanceApp/routes/analytics")(app); //FinanceApp
-require("./apis/FinanceApp/routes/frozenAssets")(app); //FinanceApp
-require("./apis/FinanceApp/routes/liabilities")(app); //FinanceApp
-require("./apis/FinanceApp/routes/liquidAssets")(app); //FinanceApp
-require("./apis/FinanceApp/routes/overview")(app); //FinanceApp
-require("./apis/FinanceApp/routes/sourceDetail")(app); //FinanceApp
+require("./apis/NetworthyMax/routes/analytics")(app); //NetworthyMax
+require("./apis/NetworthyMax/routes/frozenAssets")(app); //NetworthyMax
+require("./apis/NetworthyMax/routes/liabilities")(app); //NetworthyMax
+require("./apis/NetworthyMax/routes/liquidAssets")(app); //NetworthyMax
+require("./apis/NetworthyMax/routes/overview")(app); //NetworthyMax
+require("./apis/NetworthyMax/routes/sourceDetail")(app); //NetworthyMax
 
 //Endpoint not found
 app.get("*", function(req, res) {
