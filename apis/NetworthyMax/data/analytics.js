@@ -1,4 +1,4 @@
-const db = require("../models");
+const queryExecutor = require("./_queryExecutor");
 
 module.exports = {
 
@@ -11,7 +11,7 @@ module.exports = {
 			WHERE Entries.user_uuid='${req.params.userid}'
 			ORDER BY Entries.entry_date DESC;
 		`;
-		db.sequelize.query(sql).then(function(result) {
+		db.query(sql).then(function(result) {
 			//Find the latest values for each source
 			let x = result[0];
 			let customResponse = [];
@@ -83,7 +83,7 @@ module.exports = {
           ORDER BY Entries.entry_date DESC
           `;
       
-          db.sequelize.query(sql).then(function(result) {
+          db.query(sql).then(function(result) {
             //Find the latest values for each source
             let allEntries = result[0];
       

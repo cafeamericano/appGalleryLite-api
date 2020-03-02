@@ -23,8 +23,8 @@ app.use(express.json());
 
 //Establish db connections for Mongoose
 module.exports = {
-  AppGalleryLite: mongoose.createConnection(process.env.DB_URL_APPGALLERYLITE || ''),
-  ClientManagerApp: mongoose.createConnection(process.env.DB_URL_CLIENTMANAGERAPP || '')
+  AppGalleryLite: mongoose.createConnection(process.env.APPGALLERYLITE_DBURL|| ''),
+  ClientManagerApp: mongoose.createConnection(process.env.CLIENTMANAGERAPP_DBURL || '')
 }
 
 //Project specific routes

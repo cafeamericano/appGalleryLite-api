@@ -1,4 +1,4 @@
-const db = require("../models");
+const queryExecutor = require("./_queryExecutor");
 var uuid = require("uuid/v4");
 
 module.exports = {
