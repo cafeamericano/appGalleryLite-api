@@ -24,9 +24,37 @@ module.exports = {
     },
 
     add: function (req, res) {
-        db.Entry.create(req.body).then(function(result) {
-            res.sendStatus(200);
-          });
+
+      let {
+        user_uuid,
+        entry_date,
+        source_uuid,
+        amount,
+        comments
+      } = req.body
+
+      var sql = 
+      `
+        INSERT INTO
+          entries
+          (
+            user_uuid,
+            entry_date,
+            source_uuid,
+            amount,
+            comments
+          )
+        VALUES
+          (
+            '${user_uuid}',
+            '${entry_date}',
+            '${source_uuid}',
+            ${amount},
+            '${comments}'
+          )
+      `
+      queryExecutor.queryAndRespond(sql, res);
+      
     },
 
     delete: function (req, res) {
@@ -43,18 +71,7 @@ module.exports = {
           id = '${id}'
       `
       queryExecutor.queryAndRespond(sql, res);
-      
-    },
 
-    sourceDelete: function (req, res) {
-        db.Entry.destroy({
-            where: {
-              id: req.params.id
-            }
-          }).then(function(result) {
-            console.log(result);
-            res.json(result);
-          });
     }
-
+    
 }

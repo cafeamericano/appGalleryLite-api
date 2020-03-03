@@ -1,17 +1,18 @@
 const queryExecutor = require("./_queryExecutor");
+let db = require('../config/connection')
 
 module.exports = {
 
     analyzeAssetBreakdown: function (req, res) {
 		var sql = `
-			SELECT Sources.source_name, Entries.amount, Entries.entry_date, Sources.type
-			FROM Sources
-			JOIN Entries 
-			ON Sources.uuid=Entries.source_uuid
-			WHERE Entries.user_uuid='${req.params.userid}'
-			ORDER BY Entries.entry_date DESC;
+			SELECT sources.source_name, entries.amount, entries.entry_date, sources.type
+			FROM sources
+			JOIN entries 
+			ON sources.uuid=entries.source_uuid
+			WHERE entries.user_uuid='${req.params.userid}'
+			ORDER BY entries.entry_date DESC;
 		`;
-		db.query(sql).then(function(result) {
+		db.query(sql, function(err, result) {
 			//Find the latest values for each source
 			let x = result[0];
 			let customResponse = [];
@@ -75,15 +76,15 @@ module.exports = {
           }
       
           var sql = `
-          SELECT Sources.source_name, Entries.amount, Entries.entry_date, Sources.type, Entries.user_uuid
-          FROM Sources
-          JOIN Entries 
-          ON Sources.uuid=Entries.source_uuid
-          WHERE Entries.user_uuid='${req.params.userid}'
-          ORDER BY Entries.entry_date DESC
+          SELECT sources.source_name, entries.amount, entries.entry_date, sources.type, entries.user_uuid
+          FROM sources
+          JOIN entries 
+          ON sources.uuid=entries.source_uuid
+          WHERE entries.user_uuid='${req.params.userid}'
+          ORDER BY entries.entry_date DESC
           `;
       
-          db.query(sql).then(function(result) {
+          db.query(sql, function(err, result) {
             //Find the latest values for each source
             let allEntries = result[0];
       
