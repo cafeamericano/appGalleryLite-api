@@ -1,5 +1,5 @@
 {
-  "name": "watermelon",
+  "name": "grandCentralApi",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cafeamericano/watermelon.git"
+    "url": "git+https://github.com/cafeamericano/grandCentralApi.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cafeamericano/watermelon/issues"
+    "url": "https://github.com/cafeamericano/grandCentralApi/issues"
   },
-  "homepage": "https://github.com/cafeamericano/watermelon#readme",
+  "homepage": "https://github.com/cafeamericano/grandCentralApi#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
