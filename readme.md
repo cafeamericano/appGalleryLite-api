@@ -1,3 +1,10 @@
+### Release 1.2
+
+- Added Redis and Fetch node packages.
+- Renamed AngularPlayground to WeatherBuddy.
+- Connected WeatherBuddy to OpenWeatherAPI and a remote Redis cache.
+- Implemented routes for users of WeatherBuddy to get city weather data as well as add/delete saved cities.
+
 ### Release 1.1
 
 - Dropped Procfile.
