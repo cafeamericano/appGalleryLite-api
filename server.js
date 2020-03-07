@@ -38,6 +38,8 @@ require("./apis/NetworthyMax/routes/liquidAssets")(app); //NetworthyMax
 require("./apis/NetworthyMax/routes/overview")(app); //NetworthyMax
 require("./apis/NetworthyMax/routes/sourceDetail")(app); //NetworthyMax
 
+require("./apis/WeatherBuddy/routes/routes")(app); //WeatherBuddy
+
 //Endpoint not found
 app.get("*", function(req, res) {
   res
