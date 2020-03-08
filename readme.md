@@ -1,3 +1,7 @@
+### Release 1.3
+
+- Bug fixes for Networthy Max API to restore functionality to charts displayed on overview screen.
+
 ### Release 1.2
 
 - Added Redis and Fetch node packages.

@@ -1,92 +1,103 @@
 const queryExecutor = require("./_queryExecutor");
+const moment = require("moment");
 let db = require('../config/connection')
 
 module.exports = {
 
     analyzeAssetBreakdown: function (req, res) {
-		var sql = `
-			SELECT sources.source_name, entries.amount, entries.entry_date, sources.type
-			FROM sources
-			JOIN entries 
-			ON sources.uuid=entries.source_uuid
-			WHERE entries.user_uuid='${req.params.userid}'
-			ORDER BY entries.entry_date DESC;
-		`;
-		db.query(sql, function(err, result) {
-			//Find the latest values for each source
-			let x = result[0];
-			let customResponse = [];
-			let uniqueSources = [];
-			for (var i = 0; i < x.length; i++) {
-				if (uniqueSources.indexOf(x[i].source_name) === -1) {
-				let y = {};
-				(y.source_name = x[i].source_name),
-					(y.amount = x[i].amount),
-					(y.entry_date = x[i].entry_date),
-					(y.type = x[i].type);
-				customResponse.push(y);
-				}
-				uniqueSources.push(x[i].source_name);
-			}
-			//Tally for frozen and liquid
-			let currentLiquidValue = 0;
-			let currentFrozenValue = 0;
 
-			for (var i = 0; i < customResponse.length; i++) {
-				if (customResponse[i].type === "Liquid Asset") {
-				currentLiquidValue += customResponse[i].amount;
-				} else if (customResponse[i].type === "Frozen Asset") {
-				currentFrozenValue += customResponse[i].amount;
-				}
-			}
-			console.log(currentLiquidValue);
-			console.log(currentFrozenValue);
-			//Make a final response
-			let finalResponse = {};
-			finalResponse.currentLiquidValue = currentLiquidValue;
-			finalResponse.currentFrozenValue = currentFrozenValue;
-			//Send response to the front end
-			res.json(finalResponse);
-		});
+        //Define the SQL query
+        var sql = `
+          SELECT 
+            sources.source_name, 
+            entries.amount, 
+            entries.entry_date, 
+            sources.type
+          FROM 
+            sources
+          JOIN 
+            entries 
+          ON 
+            sources.uuid = entries.source_uuid
+          WHERE 
+            entries.user_uuid = '${req.params.userid}'
+          ORDER BY 
+            entries.entry_date DESC;
+        `;
+        
+        //Handle the response
+        db.query(sql, function(err, result) {
+
+          //Find the latest values for each source
+          let x = result;
+          let customResponse = [];
+          let uniqueSources = [];
+
+          //Create an array of unique sources, then 
+          for (var i = 0; i < x.length; i++) {
+            if (uniqueSources.indexOf(x[i].source_name) === -1) {
+            let y = {};
+            (y.source_name = x[i].source_name),
+              (y.amount = x[i].amount),
+              (y.entry_date = x[i].entry_date),
+              (y.type = x[i].type);
+            customResponse.push(y);
+            }
+            uniqueSources.push(x[i].source_name);
+          }
+
+          //Tally for frozen and liquid
+          let currentLiquidValue = 0;
+          let currentFrozenValue = 0;
+
+          //For each liquid asset, increase value for currentLiquidValue; do the same for customFrozenValue
+          for (var i = 0; i < customResponse.length; i++) {
+            if (customResponse[i].type === "Liquid Asset") {
+            currentLiquidValue += customResponse[i].amount;
+            } else if (customResponse[i].type === "Frozen Asset") {
+            currentFrozenValue += customResponse[i].amount;
+            }
+          }
+          
+          //Make a final response
+          let finalResponse = {};
+          finalResponse.currentLiquidValue = currentLiquidValue;
+          finalResponse.currentFrozenValue = currentFrozenValue;
+          
+          //Send response to the front end
+          res.json(finalResponse);
+          
+        });
     },
 
     analyzeTimeline: function (req, res) {
+
         function makeMonthString(argObj) {
-            let monthString =
-              argObj.entry_date[0] +
-              argObj.entry_date[1] +
-              argObj.entry_date[2] +
-              argObj.entry_date[3] +
-              argObj.entry_date[4] +
-              argObj.entry_date[5] +
-              argObj.entry_date[6];
-            return monthString;
-          }
-      
-          function makeMonthString2(argObj) {
-            let monthString =
-              argObj[0] +
-              argObj[1] +
-              argObj[2] +
-              argObj[3] +
-              argObj[4] +
-              argObj[5] +
-              argObj[6];
-            return monthString;
+            return moment(argObj.entry_date).format('YYYY-MM');
           }
       
           var sql = `
-          SELECT sources.source_name, entries.amount, entries.entry_date, sources.type, entries.user_uuid
-          FROM sources
-          JOIN entries 
-          ON sources.uuid=entries.source_uuid
-          WHERE entries.user_uuid='${req.params.userid}'
-          ORDER BY entries.entry_date DESC
+                SELECT 
+                    sources.source_name, 
+                    entries.amount, 
+                    entries.entry_date, 
+                    sources.type, 
+                    entries.user_uuid
+                FROM 
+                    sources
+                JOIN 
+                    entries 
+                ON 
+                    sources.uuid = entries.source_uuid
+                WHERE 
+                    entries.user_uuid = '${req.params.userid}'
+                ORDER BY 
+                    entries.entry_date DESC
           `;
       
           db.query(sql, function(err, result) {
             //Find the latest values for each source
-            let allEntries = result[0];
+            let allEntries = result;
       
             //Find out all of the months logged by the user
             let encounteredMonths = [];
@@ -101,8 +112,7 @@ module.exports = {
             let responseObj = [];
       
             for (let i = 0; i < encounteredMonths.length; i++) {
-              console.log(encounteredMonths[i]);
-              //Create new month object
+                //Create new month object
               let singleMonthObj = {
                 month: encounteredMonths[i],
                 liquid: [],
@@ -111,38 +121,40 @@ module.exports = {
               };
       
               //Push in each transaction into the appropriate category
-              for (let i = 0; i < allEntries.length; i++) {
-                let entryMonth = makeMonthString2(allEntries[i].entry_date);
+              for (let j = 0; j < allEntries.length; j++) {
+                let entryMonth = moment(allEntries[j].entry_date).format('YYYY-MM');
+
                 if (entryMonth === singleMonthObj.month) {
-                  if (allEntries[i].type === "Liquid Asset") {
+                  if (allEntries[j].type === "Liquid Asset") {
                     let newObj = {};
-                    newObj.source_name = allEntries[i].source_name;
-                    newObj.type = allEntries[i].type;
-                    newObj.amount = allEntries[i].amount;
-                    newObj.entry_date = allEntries[i].entry_date;
+                    newObj.source_name = allEntries[j].source_name;
+                    newObj.type = allEntries[j].type;
+                    newObj.amount = allEntries[j].amount;
+                    newObj.entry_date = allEntries[j].entry_date;
                     singleMonthObj.liquid.push(newObj);
                   }
-                  if (allEntries[i].type === "Frozen Asset") {
+                  if (allEntries[j].type === "Frozen Asset") {
                     let newObj = {};
-                    newObj.source_name = allEntries[i].source_name;
-                    newObj.type = allEntries[i].type;
-                    newObj.amount = allEntries[i].amount;
-                    newObj.entry_date = allEntries[i].entry_date;
+                    newObj.source_name = allEntries[j].source_name;
+                    newObj.type = allEntries[j].type;
+                    newObj.amount = allEntries[j].amount;
+                    newObj.entry_date = allEntries[j].entry_date;
                     singleMonthObj.frozen.push(newObj);
                   }
-                  if (allEntries[i].type === "Liability") {
+                  if (allEntries[j].type === "Liability") {
                     let newObj = {};
-                    newObj.source_name = allEntries[i].source_name;
-                    newObj.type = allEntries[i].type;
-                    newObj.amount = allEntries[i].amount;
-                    newObj.entry_date = allEntries[i].entry_date;
+                    newObj.source_name = allEntries[j].source_name;
+                    newObj.type = allEntries[j].type;
+                    newObj.amount = allEntries[j].amount;
+                    newObj.entry_date = allEntries[j].entry_date;
                     singleMonthObj.liabilities.push(newObj);
                   }
+
                 }
               }
               responseObj.push(singleMonthObj);
             }
-            //============================================================================================================================================
+
             let finalResponse = [];
             for (let i = 0; i < responseObj.length; i++) {
               let myObj = {
@@ -165,15 +177,10 @@ module.exports = {
               for (let j = 0; j < liabilities.length; j++) {
                 myObj.liabilitiesAccum += liabilities[j].amount;
               }
-              console.log(myObj.liquidsAccum);
-              console.log(myObj.frozensAccum);
-              console.log(myObj.liabilitiesAccum);
+
               finalResponse.push(myObj);
             }
-            res.send(finalResponse);
-            // res.json(responseObj);
-            //============================================================================================================================================
-            //============================================================================================================================================
+            res.json(finalResponse);
           });
         
     }
