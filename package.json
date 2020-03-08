@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "container-push": "heroku container:push web -a mfarmer5102-grandcentralapi",
+    "container-release": "heroku container:release web -a mfarmer5102-grandcentralapi"
   },
   "repository": {
     "type": "git",
