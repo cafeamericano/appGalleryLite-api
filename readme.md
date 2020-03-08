@@ -1,3 +1,7 @@
+### Release 1.4
+
+- Implemented a route specific to requests made to the root url.
+
 ### Release 1.3
 
 - Bug fixes for Networthy Max API to restore functionality to charts displayed on overview screen.

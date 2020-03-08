@@ -40,11 +40,22 @@ require("./apis/NetworthyMax/routes/sourceDetail")(app); //NetworthyMax
 
 require("./apis/WeatherBuddy/routes/routes")(app); //WeatherBuddy
 
+//Home route
+app.get("/", function(req, res) {
+    res
+    .status(200)
+    .send(`
+        <h2>Grand Central API</h2>
+        <p>Version 1.4</p>
+        <p>The server is listening for requests.</p>
+    `)
+})
+
 //Endpoint not found
 app.get("*", function(req, res) {
-  res
-  .status(404)
-  .json({error: "The requested endpoint does not exist."})
+    res
+    .status(404)
+    .json({error: "The requested endpoint does not exist."})
 })
 
 // SERVER LISTEN ==============================================================
