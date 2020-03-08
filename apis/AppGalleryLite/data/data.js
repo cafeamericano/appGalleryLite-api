@@ -7,7 +7,12 @@ module.exports = {
         
         const query = (
             db.App.find({})
-            .sort({ isFeatured: -1, isCollaboration: -1, publishDate: -1 })
+            .sort({ 
+                isActivelySupported: -1, 
+                isFeatured: -1, 
+                isCollaboration: -1, 
+                publishDate: -1 
+            })
         )
 
         queryExecutor.queryAndRespond(query, res);
@@ -18,7 +23,10 @@ module.exports = {
 
         const query = (
             db.Keyword.find({})
-            .sort({ type: 1 , name: 1})
+            .sort({ 
+                type: 1, 
+                name: 1
+            })
         )
 
         queryExecutor.queryAndRespond(query, res);
