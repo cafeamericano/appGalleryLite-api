@@ -40,8 +40,16 @@ var AppSchema = new Schema({
     required: true
   },
   publishDate: {
-    type: Date,
-    required: true
+      type: Date,
+      required: true
+  },
+  supportStatus: {
+      type: String,
+      required: false
+  },
+  applicationType: {
+      type: String,
+      required: false
   }
 });
 

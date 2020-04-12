@@ -23,8 +23,8 @@ app.use(express.json());
 
 //Establish db connections for Mongoose
 module.exports = {
-  AppGalleryLite: mongoose.createConnection(process.env.APPGALLERYLITE_DBURL|| ''),
-  ClientManagerApp: mongoose.createConnection(process.env.CLIENTMANAGERAPP_DBURL || '')
+  AppGalleryLite: mongoose.createConnection(process.env.APPGALLERYLITE_DBURL|| 'mongodb://localhost:27017/appGalleryLiteDb'),
+  ClientManagerApp: mongoose.createConnection(process.env.CLIENTMANAGERAPP_DBURL || 'mongodb://localhost:27017/clientManagerDb')
 }
 
 //Project specific routes
@@ -38,7 +38,7 @@ require("./apis/NetworthyMax/routes/liquidAssets")(app); //NetworthyMax
 require("./apis/NetworthyMax/routes/overview")(app); //NetworthyMax
 require("./apis/NetworthyMax/routes/sourceDetail")(app); //NetworthyMax
 
-require("./apis/WeatherBuddy/routes/routes")(app); //WeatherBuddy
+// require("./apis/WeatherBuddy/routes/routes")(app); //WeatherBuddy
 
 //Home route
 app.get("/", function(req, res) {
@@ -46,7 +46,7 @@ app.get("/", function(req, res) {
     .status(200)
     .send(`
         <h2>Grand Central API</h2>
-        <p>Version 1.4</p>
+        <p>Version 2.0.1</p>
         <p>The server is listening for requests.</p>
     `)
 })

@@ -8,10 +8,9 @@ module.exports = {
         const query = (
             db.App.find({})
             .sort({ 
-                isActivelySupported: -1, 
                 isFeatured: -1, 
-                isCollaboration: -1, 
                 publishDate: -1 
+
             })
         )
 
