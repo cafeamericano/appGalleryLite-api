@@ -1,3 +1,8 @@
+### Release 2.0.1
+
+- Disabled Weather Buddy routes.
+- App Gallery now sorts first by isFeatured then by publishDate.
+
 ### Release 1.4
 
 - Implemented a route specific to requests made to the root url.
