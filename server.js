@@ -1,7 +1,6 @@
 // GENERAL DEPENDENCIES =======================================================
 
 require('dotenv').config(); //Environment variables
-const mongoose = require("mongoose"); //Import Mongoose
 const cors = require('cors') //Allow cross-origin requests
  
 // EXPRESS ====================================================================
@@ -10,7 +9,7 @@ const cors = require('cors') //Allow cross-origin requests
 var express = require('express');
 var app = express();
 app.use(cors());
-let port = process.env.PORT || 9483;
+let port = process.env.PORT || 9484;
 
 //Define express public folder
 app.use(express.static('public'));
@@ -19,26 +18,14 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// PER PROJECT DATABASE CONNECTIONS AND ROUTING ====================================================================
 
-//Establish db connections for Mongoose
-module.exports = {
-  AppGalleryLite: mongoose.createConnection(process.env.APPGALLERYLITE_DBURL|| 'mongodb://localhost:27017/appGalleryLiteDb'),
-  ClientManagerApp: mongoose.createConnection(process.env.CLIENTMANAGERAPP_DBURL || 'mongodb://localhost:27017/clientManagerDb')
-}
+require("./apis/NetworthyLite/routes/analytics")(app); //NetworthyLite
+require("./apis/NetworthyLite/routes/frozenAssets")(app); //NetworthyLite
+require("./apis/NetworthyLite/routes/liabilities")(app); //NetworthyLite
+require("./apis/NetworthyLite/routes/liquidAssets")(app); //NetworthyLite
+require("./apis/NetworthyLite/routes/overview")(app); //NetworthyLite
+require("./apis/NetworthyLite/routes/sourceDetail")(app); //NetworthyLite
 
-//Project specific routes
-require("./apis/AppGalleryLite/routes/routes")(app); //App Gallery
-require("./apis/ClientManagerApp/routes/routes")(app); //ClientManagerApp
-
-require("./apis/NetworthyMax/routes/analytics")(app); //NetworthyMax
-require("./apis/NetworthyMax/routes/frozenAssets")(app); //NetworthyMax
-require("./apis/NetworthyMax/routes/liabilities")(app); //NetworthyMax
-require("./apis/NetworthyMax/routes/liquidAssets")(app); //NetworthyMax
-require("./apis/NetworthyMax/routes/overview")(app); //NetworthyMax
-require("./apis/NetworthyMax/routes/sourceDetail")(app); //NetworthyMax
-
-// require("./apis/WeatherBuddy/routes/routes")(app); //WeatherBuddy
 
 //Home route
 app.get("/", function(req, res) {

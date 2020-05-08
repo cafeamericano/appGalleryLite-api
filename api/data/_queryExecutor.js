@@ -7,7 +7,8 @@ module.exports = {
               res.json(err)
             }
             else {
-              res.json(result)
+                console.log(result.rows)
+              res.json(result.rows)
             }
           })
     }
